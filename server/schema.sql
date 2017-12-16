@@ -6,53 +6,38 @@
 -- SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 -- SET FOREIGN_KEY_CHECKS=0;
 
--- ---
--- Table 'users'
--- 
--- ---
+CREATE DATABASE chat;
 
-DROP TABLE IF EXISTS `users`;
+USE chat;
     
-CREATE TABLE `users` (
-  `id` INTEGER NULL AUTO_INCREMENT DEFAULT NULL,
-  `name` MEDIUMTEXT NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
+CREATE TABLE users (
+  id INTEGER AUTO_INCREMENT NOT NULL,
+  name TEXT NOT NULL,
+  PRIMARY KEY (id)
 );
 
--- ---
--- Table 'rooms'
--- 
--- ---
-
-DROP TABLE IF EXISTS `rooms`;
     
-CREATE TABLE `rooms` (
-  `id` INTEGER NULL AUTO_INCREMENT DEFAULT NULL,
-  `name` MEDIUMTEXT NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
+CREATE TABLE rooms (
+  id INTEGER AUTO_INCREMENT NOT NULL,
+  name TEXT NOT NULL,
+  PRIMARY KEY (id)
 );
 
--- ---
--- Table 'messages'
--- 
--- ---
-
-DROP TABLE IF EXISTS `messages`;
     
-CREATE TABLE `messages` (
-  `id` INTEGER NULL AUTO_INCREMENT DEFAULT NULL,
-  `message` MEDIUMTEXT NULL DEFAULT NULL,
-  `id_rooms` INTEGER NULL DEFAULT NULL,
-  `id_users` INTEGER NULL DEFAULT NULL,
-  UNIQUE KEY (`id`)
+CREATE TABLE messages (
+  id INTEGER AUTO_INCREMENT NOT NULL,
+  message TEXT NOT NULL,
+  id_rooms INTEGER NOT NULL,
+  id_users INTEGER NOT NULL,
+  UNIQUE KEY (id)
 );
 
 -- ---
 -- Foreign Keys 
 -- ---
 
-ALTER TABLE `messages` ADD FOREIGN KEY (id_rooms) REFERENCES `rooms` (`id`);
-ALTER TABLE `messages` ADD FOREIGN KEY (id_users) REFERENCES `users` (`id`);
+ALTER TABLE messages ADD FOREIGN KEY (id_rooms) REFERENCES rooms (id);
+ALTER TABLE messages ADD FOREIGN KEY (id_users) REFERENCES users (id);
 
 -- ---
 -- Table Properties
