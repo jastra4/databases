@@ -15,7 +15,9 @@ module.exports = {
         if (err) {
           console.log('error');
         } else {
+          res.writeHead(200, module.exports.headers);
           res.json(results);
+          res.end();
         }
       });
     }, // a function which handles a get request for all messages
@@ -23,6 +25,7 @@ module.exports = {
       var params = [req.body.message, req.body.username];
       models.messages.post(params, function(err, result) {
         console.log('message post: ', params);
+        res.writeHead(201, module.exports.headers);
         res.json(result);
         res.end();
       });
@@ -36,15 +39,16 @@ module.exports = {
         if (err) {
           console.log('error');
         } else {
-          res.sendStatus(200, headers);
+          res.writeHead(200, module.exports.headers);
           res.json(result);
+          res.end();
         }
       });
     },
     post: function (req, res) {
       var params = [req.body.username];
       models.users.post(params, function(err, result) {
-        //res.sendStatus(201);
+        res.writeHead(201, module.exports.headers);
         res.json(result);
         res.end();
       });
