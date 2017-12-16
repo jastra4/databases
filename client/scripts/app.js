@@ -2,7 +2,7 @@ var app = {
 
   //TODO: The current 'handleUsernameClick' function just toggles the class 'friend'
   //to all messages sent by the user
-  server: 'http://127.0.0.1:3000/classes/messages',
+  server: 'http://127.0.0.1:3000',
   username: 'anonymous',
   roomname: 'lobby',
   lastMessageId: 0,
@@ -25,7 +25,7 @@ var app = {
     app.$roomSelect.on('change', app.handleRoomChange);
 
     // Fetch previous messages
-    // app.startSpinner();
+    app.startSpinner();
     app.fetch(false);
 
     // Poll for new messages
@@ -37,15 +37,11 @@ var app = {
   send: function(message) {
     app.startSpinner();
 
-
-
-
     // POST the message to the server
     $.ajax({
       url: app.server,
       type: 'POST',
-      data: JSON.stringify(message),
-      // contentType: 'text/plain',
+      data: message,
       success: function (data) {
         // Clear messages input
         app.$message.val('');
@@ -63,6 +59,7 @@ var app = {
     $.ajax({
       url: app.server,
       type: 'GET',
+      data: { order: '-createdAt' },
       contentType: 'application/json',
       success: function(data) {
         // Don't bother if we have nothing to work with
@@ -75,7 +72,7 @@ var app = {
         var mostRecentMessage = data.results[data.results.length - 1];
 
         // Only bother updating the DOM if we have a new message
-        //if (mostRecentMessage.objectId !== app.lastMessageId) {
+        if (mostRecentMessage.objectId !== app.lastMessageId) {
           // Update the UI with the fetched rooms
           app.renderRoomList(data.results);
 
@@ -84,7 +81,7 @@ var app = {
 
           // Store the ID of the most recent message
           app.lastMessageId = mostRecentMessage.objectId;
-        //}
+        }
       },
       error: function(error) {
         console.error('chatterbox: Failed to fetch messages', error);

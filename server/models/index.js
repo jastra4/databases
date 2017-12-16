@@ -3,11 +3,10 @@ var db = require('../db');
 module.exports = {
   messages: {
     get: function (callback) {
-      var msgQuery = 'SELECT * FROM messages';
+      var msgQuery = 'SELECT messages.id, messages.message FROM messages';
       db.query(msgQuery, function(err, result) {
         if (err) {
           console.log(err);
-          //throw err;
         } else {
           callback(err, result);
         }
